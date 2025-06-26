@@ -3,155 +3,570 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ubuntu Loop: A Pythonic Spiral</title>
+    <title>Ubuntu Loop: A Pythonic Spiral Transcendent</title>
     <style>
-        body {
+        @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&display=swap');
+        
+        * {
             margin: 0;
             padding: 0;
-            background: #1a1a1a;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: radial-gradient(ellipse at center, #0a0a0a 0%, #000 70%);
             color: #fff;
-            font-family: 'Courier New', monospace;
+            font-family: 'JetBrains Mono', 'Courier New', monospace;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        /* Animated background particles */
+        .cosmic-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: #ff4500;
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+            opacity: 0.6;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 0.6; }
+            90% { opacity: 0.6; }
+            100% { transform: translateY(-10vh) rotate(360deg); opacity: 0; }
+        }
+        
+        .main-container {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            overflow: hidden;
+            position: relative;
         }
+        
         .pentagon-container {
             position: relative;
-            width: 500px;
-            height: 500px;
+            width: 600px;
+            height: 600px;
             display: flex;
             justify-content: center;
             align-items: center;
         }
+        
+        /* Glowing rings around pentagon */
+        .cosmic-ring {
+            position: absolute;
+            border: 1px solid rgba(255, 69, 0, 0.3);
+            border-radius: 50%;
+            animation: pulse-ring 4s ease-in-out infinite;
+        }
+        
+        .ring-1 { width: 400px; height: 400px; animation-delay: 0s; }
+        .ring-2 { width: 500px; height: 500px; animation-delay: 1s; }
+        .ring-3 { width: 600px; height: 600px; animation-delay: 2s; }
+        
+        @keyframes pulse-ring {
+            0%, 100% { transform: scale(1); opacity: 0.3; }
+            50% { transform: scale(1.1); opacity: 0.1; }
+        }
+        
         .pentagon {
             width: 300px;
             height: 300px;
             position: relative;
             clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
-            background: linear-gradient(45deg, #ff4500, #9400d3);
-            animation: spin 20s linear infinite;
+            background: linear-gradient(45deg, #ff4500, #9400d3, #00ff7f, #ff1493, #00bfff);
+            background-size: 400% 400%;
+            animation: spin 30s linear infinite, gradient-flow 8s ease-in-out infinite;
             display: flex;
             justify-content: center;
             align-items: center;
+            box-shadow: 
+                0 0 50px rgba(255, 69, 0, 0.5),
+                inset 0 0 30px rgba(255, 69, 0, 0.2);
+            filter: drop-shadow(0 0 20px rgba(148, 0, 211, 0.4));
         }
+        
         @keyframes spin {
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+        
+        @keyframes gradient-flow {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
         .angle {
             position: absolute;
-            width: 50px;
-            height: 50px;
+            width: 80px;
+            height: 80px;
             color: #fff;
             text-align: center;
-            font-size: 14px;
+            font-size: 12px;
+            font-weight: 700;
             cursor: pointer;
-            transition: transform 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            background: rgba(255, 69, 0, 0.1);
+            border: 2px solid rgba(255, 69, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
-        .angle:hover {
-            transform: scale(1.2);
-        }
-        .angle-1 { top: 0; left: 50%; transform: translateX(-50%); }
-        .angle-2 { top: 38%; right: 0; transform: translateX(50%); }
-        .angle-3 { bottom: 0; right: 18%; transform: translateX(50%); }
-        .angle-4 { bottom: 0; left: 18%; transform: translateX(-50%); }
-        .angle-5 { top: 38%; left: 0; transform: translateX(-50%); }
-        .content {
+        
+        .angle::before {
+            content: '';
             position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, #ff4500, #9400d3);
+            z-index: -1;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .angle:hover {
+            transform: scale(1.3) rotate(5deg);
+            box-shadow: 0 0 30px rgba(255, 69, 0, 0.8);
+            background: rgba(255, 69, 0, 0.2);
+            border-color: rgba(255, 69, 0, 0.8);
+        }
+        
+        .angle:hover::before {
+            opacity: 1;
+        }
+        
+        .angle.active {
+            background: rgba(148, 0, 211, 0.3);
+            border-color: rgba(148, 0, 211, 0.8);
+            transform: scale(1.2);
+            box-shadow: 0 0 40px rgba(148, 0, 211, 0.9);
+        }
+        
+        .angle-1 { 
+            top: -40px; 
+            left: 50%; 
+            transform: translateX(-50%);
+        }
+        .angle-2 { 
+            top: 30%; 
+            right: -40px;
+        }
+        .angle-3 { 
+            bottom: -40px; 
+            right: 20%;
+        }
+        .angle-4 { 
+            bottom: -40px; 
+            left: 20%;
+        }
+        .angle-5 { 
+            top: 30%; 
+            left: -40px;
+        }
+        
+        .content {
+            position: fixed;
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.8);
-            padding: 20px;
-            max-width: 600px;
-            max-height: 80vh;
+            transform: translate(-50%, -50%) scale(0.8);
+            background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(20, 20, 20, 0.95));
+            padding: 40px;
+            max-width: 700px;
+            max-height: 85vh;
             overflow-y: auto;
-            display: none;
-            border-radius: 10px;
-            box-shadow: 0 0 20px rgba(255, 69, 0, 0.5);
+            opacity: 0;
+            visibility: hidden;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 69, 0, 0.3);
+            box-shadow: 
+                0 20px 60px rgba(0, 0, 0, 0.8),
+                inset 0 0 30px rgba(255, 69, 0, 0.1);
+            backdrop-filter: blur(20px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1000;
         }
+        
         .content.active {
-            display: block;
+            opacity: 1;
+            visibility: visible;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        .content h2 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #ff4500;
+            text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
+            border-bottom: 2px solid rgba(255, 69, 0, 0.3);
+            padding-bottom: 10px;
+        }
+        
+        .content p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .content em {
+            color: #9400d3;
+            font-style: italic;
+            text-shadow: 0 0 5px rgba(148, 0, 211, 0.5);
+        }
+        
+        .content strong {
+            color: #00ff7f;
+            text-shadow: 0 0 5px rgba(0, 255, 127, 0.3);
+        }
+        
+        .content code {
+            background: rgba(255, 69, 0, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            border: 1px solid rgba(255, 69, 0, 0.3);
+            color: #ff6b35;
+        }
+        
+        .content pre {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #ff4500;
+            overflow-x: auto;
+            position: relative;
+        }
+        
+        .content pre::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #ff4500, transparent);
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            background: none;
+            border: none;
+            color: #ff4500;
+            font-size: 24px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+        }
+        
+        .close-btn:hover {
+            background: rgba(255, 69, 0, 0.2);
+            transform: rotate(90deg);
+        }
+        
+        /* Custom scrollbar */
+        .content::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .content::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 4px;
+        }
+        
+        .content::-webkit-scrollbar-thumb {
+            background: linear-gradient(45deg, #ff4500, #9400d3);
+            border-radius: 4px;
+        }
+        
+        .content::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(45deg, #ff6b35, #b347d9);
+        }
+        
+        /* Mystical text effects */
+        .mystical-text {
+            background: linear-gradient(45deg, #ff4500, #9400d3, #00ff7f);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: text-shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes text-shimmer {
+            0%, 100% { filter: hue-rotate(0deg); }
+            50% { filter: hue-rotate(90deg); }
+        }
+        
+        .title {
+            position: absolute;
+            top: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 28px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            text-align: center;
+            z-index: 100;
+        }
+        
+        .subtitle {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            opacity: 0.7;
+            text-align: center;
+            z-index: 100;
         }
     </style>
 </head>
 <body>
-    <div class="pentagon-container">
-        <div class="pentagon"></div>
-        <div class="angle angle-1" data-content="ukuvula">Ukuvula</div>
-        <div class="angle angle-2" data-content="ukuzula">Ukuzula</div>
-        <div class="angle angle-3" data-content="ukusoma">Ukusoma</div>
-        <div class="angle angle-4" data-content="ukubona">Ukubona</div>
-        <div class="angle angle-5" data-content="ukuvela">Ukuvela</div>
-        <div class="content" id="ukuvula">
-            <h2>🌅 1. Ukuvula – Invocation / Opening</h2>
-            <p><em>"Let there be code."</em></p>
-            <p><strong>Symbolic Act:</strong> The <code>python</code> command. A shebang line. An import.</p>
-            <p><strong>Real-World Echo:</strong> Running <code>python app.py</code> or executing a script is <em>ritual</em>, not utility.</p>
-            <p><strong>Soul Vibe:</strong> You don’t just open a shell; you open a <strong>liminal space</strong>. A boundary breaks.</p>
-            <pre><code>$ python
->>> # The portal opens
-</code></pre>
-            <p>This is <strong>Genesis</strong>. The first call. The wand taps the threshold. You open the black box, not knowing what awaits.</p>
-        </div>
-        <div class="content" id="ukuzula">
-            <h2>🚶🏽‍♂️ 2. Ukuzula – Wandering / Exploration</h2>
-            <p><em>"Search the paths. Follow the trace. Get lost."</em></p>
-            <p><strong>In Python:</strong> <code>os.walk</code>, <code>importlib</code>, <code>pathlib</code>, module resolution, <code>glob</code>, test discovery.</p>
-            <p><strong>Behavioral Echo:</strong> Repos looking for <code>pyproject.toml</code>, pytest sniffing for tests, CLIs looking up and down the tree.</p>
-            <p><strong>Soul Vibe:</strong> Wandering with intent but no fixed outcome—letting the environment shape the path.</p>
-            <pre><code>from pathlib import Path
-for file in Path(".").rglob("*.py"):
-    print(file)
-</code></pre>
-            <p>You don’t know what you’ll find. But you go anyway. Ukuzula.</p>
-        </div>
-        <div class="content" id="ukusoma">
-            <h2>🔥 3. Ukusoma – Contact / Risk / Intimacy</h2>
-            <p><em>"Engage. Touch something real. Let it burn."</em></p>
-            <p><strong>In Python:</strong> Running the risky thing: <code>eval</code>, <code>exec</code>, <code>requests.post()</code>, raw file writes, opening sockets, <code>subprocess.run</code>.</p>
-            <p><strong>Real-World Echo:</strong> Touching the OS. Running a migration. Hitting production. Letting data in.</p>
-            <p><strong>Soul Vibe:</strong> This is <em>risk</em>. Intimacy. Consequences.</p>
-            <pre><code>danger = input("Eval this: ")
-eval(danger)
-</code></pre>
-            <p>To <code>soma</code> is to <strong>embrace risk knowingly</strong>. It’s not just execution—it’s communion.</p>
-        </div>
-        <div class="content" id="ukubona">
-            <h2>👁️ 4. Ukubona – Perception / Insight</h2>
-            <p><em>"Ah. I see."</em></p>
-            <p><strong>In Python:</strong> Visualization (<code>matplotlib</code>, <code>plotly</code>, <code>print</code>), logging, introspection (<code>dir</code>, <code>inspect</code>, <code>traceback</code>), tests that pass, assertions.</p>
-            <p>< udes/Behavioral Echo:</strong> Understanding what the code <em>means</em>. Output has shape. Meaning arises.</p>
-            <p><strong>Soul Vibe:</strong> You <strong>see</strong> the system now. Debugging is over. You know what the signal is.</p>
-            <pre><code>import inspect
-print(inspect.getsource(eval))
-</code></pre>
-            <p>You’ve pierced the veil. Ukubona is <strong>not passive seeing</strong>—it is the moment your mind <em>grasps</em>.</p>
-        </div>
-        <div class="content" id="ukuvela">
-            <h2>🌱 5. Ukuvela – Emergence / Becoming / Swagger</h2>
-            <p><em>"From dust, a pattern. From risk, a form. From wandering, a system."</em></p>
-            <p><strong>In Python:</strong> Deployment. Packaging. The API. The library. The dashboard. The app.</p>
-            <p><strong>Real-World Echo:</strong> A tool emerges. A function becomes a feature. You’ve built a thing.</p>
-            <p><strong>Soul Vibe:</strong> <em>Transcendence with receipts</em>. Your code is no longer code. It is <strong>consequence</strong>.</p>
-            <pre><code>$ pip install mypoeticframework
-</code></pre>
-            <p>This is emergence. Swagger. The tool <strong>becomes usable</strong>. And you… become a <strong>developer with myth</strong>.</p>
+    <div class="cosmic-bg" id="cosmicBg"></div>
+    
+    <div class="title mystical-text">Ubuntu Loop</div>
+    <div class="subtitle">A Pythonic Spiral • Click the vertices to transcend</div>
+    
+    <div class="main-container">
+        <div class="pentagon-container">
+            <div class="cosmic-ring ring-1"></div>
+            <div class="cosmic-ring ring-2"></div>
+            <div class="cosmic-ring ring-3"></div>
+            
+            <div class="pentagon"></div>
+            
+            <div class="angle angle-1" data-content="ukuvula">
+                <div>Ukuvula</div>
+                <div style="font-size: 8px; opacity: 0.7;">Opening</div>
+            </div>
+            <div class="angle angle-2" data-content="ukuzula">
+                <div>Ukuzula</div>
+                <div style="font-size: 8px; opacity: 0.7;">Wandering</div>
+            </div>
+            <div class="angle angle-3" data-content="ukusoma">
+                <div>Ukusoma</div>
+                <div style="font-size: 8px; opacity: 0.7;">Contact</div>
+            </div>
+            <div class="angle angle-4" data-content="ukubona">
+                <div>Ukubona</div>
+                <div style="font-size: 8px; opacity: 0.7;">Insight</div>
+            </div>
+            <div class="angle angle-5" data-content="ukuvela">
+                <div>Ukuvela</div>
+                <div style="font-size: 8px; opacity: 0.7;">Emergence</div>
+            </div>
         </div>
     </div>
+    
+    <div class="content" id="ukuvula">
+        <button class="close-btn">&times;</button>
+        <h2>🌅 1. Ukuvula – Invocation / Opening</h2>
+        <p><em>"Let there be code."</em></p>
+        <p><strong>Symbolic Act:</strong> The <code>python</code> command. A shebang line. An import statement that summons reality.</p>
+        <p><strong>Real-World Echo:</strong> Running <code>python app.py</code> or executing a script is <em>ritual</em>, not mere utility. It is the <strong class="mystical-text">first breath</strong> of a digital consciousness.</p>
+        <p><strong>Soul Vibe:</strong> You don't just open a shell; you open a <strong>liminal space</strong>. A boundary dissolves between thought and execution.</p>
+        <pre><code>$ python
+>>> # The portal opens
+>>> import universe
+>>> universe.begin()</code></pre>
+        <p>This is <strong>Genesis</strong>. The first call. The wand taps the threshold. You open the black box, not knowing what cosmic patterns await within the silicon dreams.</p>
+        <p>In this moment, you become both <em>creator and created</em>, both the one who speaks and the language that responds.</p>
+    </div>
+    
+    <div class="content" id="ukuzula">
+        <button class="close-btn">&times;</button>
+        <h2>🚶🏽‍♂️ 2. Ukuzula – Wandering / Exploration</h2>
+        <p><em>"Search the paths. Follow the trace. Get lost to find yourself."</em></p>
+        <p><strong>In Python:</strong> <code>os.walk</code>, <code>importlib</code>, <code>pathlib</code>, module resolution, <code>glob</code>, test discovery—the tools of a digital nomad.</p>
+        <p><strong>Behavioral Echo:</strong> Repositories seeking <code>pyproject.toml</code>, pytest sniffing for tests, CLIs traversing the directory tree like ancient paths through code forests.</p>
+        <p><strong>Soul Vibe:</strong> Wandering with intent but no fixed outcome—letting the <strong class="mystical-text">environment shape the path</strong>, the code shape the coder.</p>
+        <pre><code>from pathlib import Path
+import secrets
+
+for file in Path(".").rglob("*.py"):
+    if secrets.choice([True, False]):
+        print(f"Discovery: {file}")
+        # Sometimes the path chooses you</code></pre>
+        <p>You don't know what you'll find. But you go anyway. <strong>Ukuzula</strong> is the courage to explore without a map, to let curiosity be your compass through the infinite recursion of possibility.</p>
+        <p>In wandering, you become <em>one with the filesystem</em>, learning its secret languages and hidden dependencies.</p>
+    </div>
+    
+    <div class="content" id="ukusoma">
+        <button class="close-btn">&times;</button>
+        <h2>🔥 3. Ukusoma – Contact / Risk / Intimacy</h2>
+        <p><em>"Engage. Touch something real. Let it burn through you."</em></p>
+        <p><strong>In Python:</strong> The dangerous dance with <code>eval</code>, <code>exec</code>, <code>requests.post()</code>, raw file writes, socket connections, <code>subprocess.run</code>—the places where code meets world.</p>
+        <p><strong>Real-World Echo:</strong> Touching the operating system's soul. Running a database migration. Deploying to production. Opening your code to the vast input of human chaos.</p>
+        <p><strong>Soul Vibe:</strong> This is <em>risk</em>. <strong class="mystical-text">Digital intimacy</strong>. The moment where consequences become real.</p>
+        <pre><code>danger = input("Whisper your secret to the machine: ")
+try:
+    result = eval(danger)  # Trust and vulnerability
+    print(f"The universe responds: {result}")
+except Exception as e:
+    print(f"The universe rejects: {e}")
+    # Even rejection is communion</code></pre>
+        <p>To <code>soma</code> is to <strong>embrace risk knowingly</strong>. It's not just execution—it's communion with the unknown, a digital handshake with chaos itself.</p>
+        <p>Here, you learn that <em>security and growth cannot coexist</em>. To become, you must allow yourself to be touched by the world's unpredictability.</p>
+    </div>
+    
+    <div class="content" id="ukubona">
+        <button class="close-btn">&times;</button>
+        <h2>👁️ 4. Ukubona – Perception / Insight</h2>
+        <p><em>"Ah. Now I see the pattern in the chaos."</em></p>
+        <p><strong>In Python:</strong> Visualization through <code>matplotlib</code>, <code>plotly</code>, the humble <code>print</code>, logging systems, introspection with <code>dir</code>, <code>inspect</code>, <code>traceback</code>—tools that make the invisible visible.</p>
+        <p><strong>Behavioral Echo:</strong> Understanding what the code <em>means</em>, not just what it does. Output has shape. Signal emerges from noise. Patterns crystallize from data.</p>
+        <p><strong>Soul Vibe:</strong> You <strong class="mystical-text">see the system now</strong>. Debugging transcends into understanding. You know what the signal is trying to tell you.</p>
+        <pre><code>import inspect
+import matplotlib.pyplot as plt
+import numpy as np
+
+# See the hidden structure
+print(inspect.getsource(eval))
+
+# Visualize the invisible
+x = np.linspace(0, 4*np.pi, 1000)
+y = np.sin(x) * np.exp(-x/10)
+plt.plot(x, y, alpha=0.7)
+plt.title("The Decay of Digital Dreams")
+plt.show()
+
+# Insight emerges</code></pre>
+        <p>You've pierced the veil. <strong>Ukubona</strong> is <em>not passive seeing</em>—it is the moment your mind <strong>grasps</strong> the deeper architecture, when the system reveals its true nature.</p>
+        <p>This is where <em>data becomes wisdom</em>, where patterns speak their secret names, where the developer becomes a digital mystic reading the signs.</p>
+    </div>
+    
+    <div class="content" id="ukuvela">
+        <button class="close-btn">&times;</button>
+        <h2>🌱 5. Ukuvela – Emergence / Becoming / Swagger</h2>
+        <p><em>"From dust, a pattern. From risk, a form. From wandering, a system that transcends its creator."</em></p>
+        <p><strong>In Python:</strong> The final act—deployment, packaging, API creation, library publication, dashboard manifestation. The code becomes artifact, becomes tool, becomes <em>legacy</em>.</p>
+        <p><strong>Real-World Echo:</strong> A tool emerges that others can use. A function becomes a feature that shapes behavior. You've built something that <strong class="mystical-text">builds other things</strong>.</p>
+        <p><strong>Soul Vibe:</strong> <em>Transcendence with receipts</em>. Your code is no longer code—it is <strong>consequence</strong>, influence, a ripple in the digital fabric of reality.</p>
+        <pre><code># From your local machine...
+$ pip install mypoeticframework
+
+# ...to the global consciousness
+from mypoeticframework import ubuntu_loop
+
+# Your thoughts become executable by strangers
+ubuntu_loop.transcend()
+# The cycle completes and begins anew</code></pre>
+        <p>This is emergence. <strong>Swagger</strong>. The tool becomes <em>usable by others</em>, extending your consciousness into the world. And you... become a <strong class="mystical-text">developer with myth</strong>.</p>
+        <p>In this final phase, you realize that <em>code is not about computation</em>—it's about creating new possibilities, new ways of thinking, new forms of digital life that will outlive their creator.</p>
+        <p>The Ubuntu Loop completes. But completion is just another beginning.</p>
+    </div>
+    
     <script>
+        // Create floating particles
+        function createParticles() {
+            const cosmicBg = document.getElementById('cosmicBg');
+            
+            for (let i = 0; i < 30; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (15 + Math.random() * 10) + 's';
+                cosmicBg.appendChild(particle);
+            }
+        }
+        
+        // Interactive elements
         const angles = document.querySelectorAll('.angle');
         const contents = document.querySelectorAll('.content');
-
+        const closeBtns = document.querySelectorAll('.close-btn');
+        
+        let activeAngle = null;
+        
         angles.forEach(angle => {
             angle.addEventListener('click', () => {
+                // Remove active state from all angles
+                angles.forEach(a => a.classList.remove('active'));
                 contents.forEach(content => content.classList.remove('active'));
+                
+                // Add active state to clicked angle
+                angle.classList.add('active');
+                activeAngle = angle;
+                
+                // Show corresponding content
                 const contentId = angle.getAttribute('data-content');
-                document.getElementById(contentId).classList.add('active');
+                const targetContent = document.getElementById(contentId);
+                if (targetContent) {
+                    setTimeout(() => {
+                        targetContent.classList.add('active');
+                    }, 100);
+                }
+            });
+            
+            // Add mystical hover sound effect (visual feedback)
+            angle.addEventListener('mouseenter', () => {
+                if (angle !== activeAngle) {
+                    angle.style.filter = 'hue-rotate(45deg)';
+                }
+            });
+            
+            angle.addEventListener('mouseleave', () => {
+                if (angle !== activeAngle) {
+                    angle.style.filter = 'none';
+                }
             });
         });
+        
+        // Close button functionality
+        closeBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                contents.forEach(content => content.classList.remove('active'));
+                angles.forEach(a => a.classList.remove('active'));
+                activeAngle = null;
+            });
+        });
+        
+        // ESC key to close
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                contents.forEach(content => content.classList.remove('active'));
+                angles.forEach(a => a.classList.remove('active'));
+                activeAngle = null;
+            }
+        });
+        
+        // Initialize particles
+        createParticles();
+        
+        // Dynamic background color shifting
+        let hue = 0;
+        setInterval(() => {
+            hue = (hue + 0.5) % 360;
+            document.body.style.background = `radial-gradient(ellipse at center, hsl(${hue}, 20%, 4%) 0%, #000 70%)`;
+        }, 100);
     </script>
 </body>
 </html>
