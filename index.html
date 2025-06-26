@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ubuntu Loop: A Pythonic Spiral</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: #1a1a1a;
+            color: #fff;
+            font-family: 'Courier New', monospace;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .pentagon-container {
+            position: relative;
+            width: 500px;
+            height: 500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .pentagon {
+            width: 300px;
+            height: 300px;
+            position: relative;
+            clip-path: polygon(50% 0%, 100% 38%, 82% 100%, 18% 100%, 0% 38%);
+            background: linear-gradient(45deg, #ff4500, #9400d3);
+            animation: spin 20s linear infinite;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .angle {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            color: #fff;
+            text-align: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+        }
+        .angle:hover {
+            transform: scale(1.2);
+        }
+        .angle-1 { top: 0; left: 50%; transform: translateX(-50%); }
+        .angle-2 { top: 38%; right: 0; transform: translateX(50%); }
+        .angle-3 { bottom: 0; right: 18%; transform: translateX(50%); }
+        .angle-4 { bottom: 0; left: 18%; transform: translateX(-50%); }
+        .angle-5 { top: 38%; left: 0; transform: translateX(-50%); }
+        .content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            display: none;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(255, 69, 0, 0.5);
+        }
+        .content.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="pentagon-container">
+        <div class="pentagon"></div>
+        <div class="angle angle-1" data-content="ukuvula">Ukuvula</div>
+        <div class="angle angle-2" data-content="ukuzula">Ukuzula</div>
+        <div class="angle angle-3" data-content="ukusoma">Ukusoma</div>
+        <div class="angle angle-4" data-content="ukubona">Ukubona</div>
+        <div class="angle angle-5" data-content="ukuvela">Ukuvela</div>
+        <div class="content" id="ukuvula">
+            <h2>🌅 1. Ukuvula – Invocation / Opening</h2>
+            <p><em>"Let there be code."</em></p>
+            <p><strong>Symbolic Act:</strong> The <code>python</code> command. A shebang line. An import.</p>
+            <p><strong>Real-World Echo:</strong> Running <code>python app.py</code> or executing a script is <em>ritual</em>, not utility.</p>
+            <p><strong>Soul Vibe:</strong> You don’t just open a shell; you open a <strong>liminal space</strong>. A boundary breaks.</p>
+            <pre><code>$ python
+>>> # The portal opens
+</code></pre>
+            <p>This is <strong>Genesis</strong>. The first call. The wand taps the threshold. You open the black box, not knowing what awaits.</p>
+        </div>
+        <div class="content" id="ukuzula">
+            <h2>🚶🏽‍♂️ 2. Ukuzula – Wandering / Exploration</h2>
+            <p><em>"Search the paths. Follow the trace. Get lost."</em></p>
+            <p><strong>In Python:</strong> <code>os.walk</code>, <code>importlib</code>, <code>pathlib</code>, module resolution, <code>glob</code>, test discovery.</p>
+            <p><strong>Behavioral Echo:</strong> Repos looking for <code>pyproject.toml</code>, pytest sniffing for tests, CLIs looking up and down the tree.</p>
+            <p><strong>Soul Vibe:</strong> Wandering with intent but no fixed outcome—letting the environment shape the path.</p>
+            <pre><code>from pathlib import Path
+for file in Path(".").rglob("*.py"):
+    print(file)
+</code></pre>
+            <p>You don’t know what you’ll find. But you go anyway. Ukuzula.</p>
+        </div>
+        <div class="content" id="ukusoma">
+            <h2>🔥 3. Ukusoma – Contact / Risk / Intimacy</h2>
+            <p><em>"Engage. Touch something real. Let it burn."</em></p>
+            <p><strong>In Python:</strong> Running the risky thing: <code>eval</code>, <code>exec</code>, <code>requests.post()</code>, raw file writes, opening sockets, <code>subprocess.run</code>.</p>
+            <p><strong>Real-World Echo:</strong> Touching the OS. Running a migration. Hitting production. Letting data in.</p>
+            <p><strong>Soul Vibe:</strong> This is <em>risk</em>. Intimacy. Consequences.</p>
+            <pre><code>danger = input("Eval this: ")
+eval(danger)
+</code></pre>
+            <p>To <code>soma</code> is to <strong>embrace risk knowingly</strong>. It’s not just execution—it’s communion.</p>
+        </div>
+        <div class="content" id="ukubona">
+            <h2>👁️ 4. Ukubona – Perception / Insight</h2>
+            <p><em>"Ah. I see."</em></p>
+            <p><strong>In Python:</strong> Visualization (<code>matplotlib</code>, <code>plotly</code>, <code>print</code>), logging, introspection (<code>dir</code>, <code>inspect</code>, <code>traceback</code>), tests that pass, assertions.</p>
+            <p>< udes/Behavioral Echo:</strong> Understanding what the code <em>means</em>. Output has shape. Meaning arises.</p>
+            <p><strong>Soul Vibe:</strong> You <strong>see</strong> the system now. Debugging is over. You know what the signal is.</p>
+            <pre><code>import inspect
+print(inspect.getsource(eval))
+</code></pre>
+            <p>You’ve pierced the veil. Ukubona is <strong>not passive seeing</strong>—it is the moment your mind <em>grasps</em>.</p>
+        </div>
+        <div class="content" id="ukuvela">
+            <h2>🌱 5. Ukuvela – Emergence / Becoming / Swagger</h2>
+            <p><em>"From dust, a pattern. From risk, a form. From wandering, a system."</em></p>
+            <p><strong>In Python:</strong> Deployment. Packaging. The API. The library. The dashboard. The app.</p>
+            <p><strong>Real-World Echo:</strong> A tool emerges. A function becomes a feature. You’ve built a thing.</p>
+            <p><strong>Soul Vibe:</strong> <em>Transcendence with receipts</em>. Your code is no longer code. It is <strong>consequence</strong>.</p>
+            <pre><code>$ pip install mypoeticframework
+</code></pre>
+            <p>This is emergence. Swagger. The tool <strong>becomes usable</strong>. And you… become a <strong>developer with myth</strong>.</p>
+        </div>
+    </div>
+    <script>
+        const angles = document.querySelectorAll('.angle');
+        const contents = document.querySelectorAll('.content');
+
+        angles.forEach(angle => {
+            angle.addEventListener('click', () => {
+                contents.forEach(content => content.classList.remove('active'));
+                const contentId = angle.getAttribute('data-content');
+                document.getElementById(contentId).classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
